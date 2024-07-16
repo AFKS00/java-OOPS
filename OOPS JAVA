@@ -96,13 +96,7 @@ public class IPLManager {
             scanner.nextLine(); 
 
             switch (choice) {
-                case 1:
-                    System.out.print("Enter team code: ");
-                    String teamCode = scanner.nextLine();
-                    System.out.print("Enter team name: ");
-                    String teamName = scanner.nextLine();
-                    iplManager.createNewTeam(teamCode, teamName);
-                    break;
+               
                 case 2:
                     System.out.print("Enter team code: ");
                     teamCode = scanner.nextLine();
