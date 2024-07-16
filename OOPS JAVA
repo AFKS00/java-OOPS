@@ -2,12 +2,6 @@ package com.team;
 import java.util.*;
 
 
-class TeamNotFoundException extends Exception { //exception custom
-    public TeamNotFoundException(String message) {
-        super(message);
-    }
-}
-
 
 class Player {
     private String playerName;
