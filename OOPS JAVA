@@ -1,0 +1,141 @@
+package com.team;
+import java.util.*;
+
+
+class TeamNotFoundException extends Exception { //exception custom
+    public TeamNotFoundException(String message) {
+        super(message);
+    }
+}
+
+
+class Player {
+    private String playerName;
+
+    public Player(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+}
+
+
+class Team {
+    private String teamCode;
+    private String teamName;
+    ArrayList<Player> players=new ArrayList<Player>();
+    public Team(String teamCode, String teamName) {
+        this.teamCode = teamCode;
+        this.teamName = teamName;
+        this.players = new ArrayList<>();
+    }
+
+    public String getTeamCode() {
+        return teamCode;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+}
+
+
+public class IPLManager {
+    Map<String, Team> teams=new HashMap<String, Team>();
+
+    public IPLManager() {
+        this.teams = new HashMap<>();
+    }
+
+   
+    public void createNewTeam(String teamCode, String teamName) {
+        Team newTeam = new Team(teamCode, teamName);
+        teams.put(teamCode, newTeam);
+        System.out.println("Team created successfully!");
+    }
+
+    
+    public void addPlayerToTeam(String teamCode, String playerName) throws TeamNotFoundException {
+        Team team = teams.get(teamCode);
+        if (team == null) {
+            throw new TeamNotFoundException("Team code  does not exist.");
+        }
+        Player newPlayer = new Player(playerName);
+        team.addPlayer(newPlayer);
+        System.out.println("Player added to team " + team.getTeamName() + " successfully!");
+    }
+
+   
+    public void showAllPlayers(String teamCode) throws TeamNotFoundException {
+        Team team = teams.get(teamCode);
+        if (team == null) {
+            throw new TeamNotFoundException("Team with code " + teamCode + " does not exist.");
+        }
+        System.out.println("Players in team " + team.getTeamName() + ":");
+        for (Player player : team.getPlayers()) {
+            System.out.println(player.getPlayerName());
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        IPLManager iplManager = new IPLManager();
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Create new team");
+            System.out.println("2. Add player to team");
+            System.out.println("3. Show all players");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter team code: ");
+                    String teamCode = scanner.nextLine();
+                    System.out.print("Enter team name: ");
+                    String teamName = scanner.nextLine();
+                    iplManager.createNewTeam(teamCode, teamName);
+                    break;
+                case 2:
+                    System.out.print("Enter team code: ");
+                    teamCode = scanner.nextLine();
+                    System.out.print("Enter player name: ");
+                    String playerName = scanner.nextLine();
+                    try {
+                        iplManager.addPlayerToTeam(teamCode, playerName);
+                    } catch (TeamNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 3:
+                    System.out.print("Enter team code: ");
+                    teamCode = scanner.nextLine();
+                    try {
+                        iplManager.showAllPlayers(teamCode);
+                    } catch (TeamNotFoundException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 4:
+                    System.out.println("Exiting application...");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option (1-4).");
+            }
+        }
+    }
+}
+
